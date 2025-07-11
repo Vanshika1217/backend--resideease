@@ -18,11 +18,10 @@ require('./Models/db'); // Assumes db.js connects using mongoose.connect()
 // Express app and HTTP server
 const app = express();
 const server = http.createServer(app);
+const allowedOrigins = [
+  "https://resideease-hkuphuxty-vanshika-guptas-projects-f78d71c3.vercel.app"
+];
 
-// Top of file, before CORS middleware
-const allowedOrigins = ["https://resideease-hkuphuxty-vanshika-guptas-projects-f78d71c3.vercel.app/"]; // ✅ update this
-
-// CORS
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -33,6 +32,7 @@ app.use(cors({
   },
   credentials: true,
 }));
+
 
 app.use(bodyParser.json());
 
