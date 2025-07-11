@@ -19,11 +19,10 @@ require('./Models/db'); // Assumes db.js connects using mongoose.connect()
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors({
-  origin: "http://localhost:5173", // or use '*' for all origins (not recommended in production)
-  credentials: true
-}));
+// Top of file, before CORS middleware
+const allowedOrigins = ["http://localhost:5173", "https://your-frontend.vercel.app"]; // ✅ update this
 
+// CORS
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
