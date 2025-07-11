@@ -19,16 +19,33 @@ router.get("/hotels", async (req, res) => {
 });
 // Route example to handle dynamic route using _id:
 router.get("/hotel/:hotelId", async (req, res) => {
-  console.log(req.params.hotelId);
   try {
-    const hotel = await Accommodation.findById(req.params.hotelId);
-    if (!hotel) return res.status(404).json({ message: "Hotel not found" });
-    res.json(hotel);
+    const hotel = await Accommodation.findById(req.params.hotelId)
+      .populate("owner", "_id name email"); // 👈 populates owner details
+
+    if (!hotel) {
+      return res.status(404).json({ message: "Hotel not found" });
+    }
+
+    res.json({
+      _id: hotel._id,
+      name: hotel.name,
+      type: hotel.type,
+      location: hotel.location,
+      price: hotel.price,
+      images: hotel.images,
+      description: hotel.description,
+      amenities: hotel.amenities,
+      ownerId: hotel.owner?._id,          // ✅ Required for chat feature
+      ownerName: hotel.owner?.name,       // Optional (can show in chat)
+      ownerEmail: hotel.owner?.email      // Optional
+    });
   } catch (error) {
     console.error("Error fetching hotel details:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+
 
 router.get("/pgs", async (req, res) => {
   try {
