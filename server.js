@@ -19,7 +19,7 @@ require('./Models/db'); // Assumes db.js connects using mongoose.connect()
 const app = express();
 const server = http.createServer(app);
 const allowedOrigins = [
-  "https://reside-ease-accomodation-platform-y.vercel.app/"
+  "https://reside-ease-accomodation-platform-y.vercel.app"
 ];
 
 app.use(cors({
