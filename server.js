@@ -20,7 +20,7 @@ const app = express();
 const server = http.createServer(app);
 
 // Top of file, before CORS middleware
-const allowedOrigins = ["http://localhost:5173", "https://your-frontend.vercel.app"]; // ✅ update this
+const allowedOrigins = ["https://resideease-hkuphuxty-vanshika-guptas-projects-f78d71c3.vercel.app/"]; // ✅ update this
 
 // CORS
 app.use(cors({
