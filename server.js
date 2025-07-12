@@ -18,10 +18,13 @@ require('./Models/db'); // Assumes db.js connects using mongoose.connect()
 // Express app and HTTP server
 const app = express();
 const server = http.createServer(app);
+
+// ✅ Allowed origins
 const allowedOrigins = [
   "https://reside-ease-accomodation-platform-y.vercel.app"
 ];
 
+// ✅ CORS for Express
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -33,7 +36,6 @@ app.use(cors({
   credentials: true,
 }));
 
-
 app.use(bodyParser.json());
 
 // Routes
@@ -44,13 +46,14 @@ app.use('/booking', require('./routes/BookingRoutes'));
 app.use('/fetch', require('./routes/Fetch'));
 app.use('/remove', require('./routes/Remove'));
 app.use('/add', require('./routes/Add'));
-app.use('/messages', require('./routes/messages')); // ✅ Message route
+app.use('/messages', require('./routes/messages'));
 
-// ✅ SOCKET.IO SETUP
+// ✅ SOCKET.IO SETUP (CORS fixed)
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
+    credentials: true,
   },
 });
 
